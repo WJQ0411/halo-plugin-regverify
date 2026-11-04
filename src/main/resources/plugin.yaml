@@ -1,0 +1,22 @@
+apiVersion: plugin.halo.run/v1alpha1
+kind: Plugin
+metadata:
+  name: regverify
+spec:
+  # The registration page and gateway templates used here are available since Halo 2.20.
+  # The FormKit `code` setting component is available since Halo 2.22.
+  requires: ">=2.22.0"
+  author:
+    name: WJQ0411
+    website: https://github.com/WJQ0411
+  logo: logo.svg
+  settingName: regverify-settings
+  configMapName: regverify-configmap
+  homepage: https://github.com/WJQ0411/halo-plugin-regverify
+  repo: https://github.com/WJQ0411/halo-plugin-regverify
+  issues: https://github.com/WJQ0411/halo-plugin-regverify/issues
+  displayName: "注册验证"
+  description: "在注册页加入可自定义的验证入口：弹窗内容、提示文字和校验脚本都可以在插件设置中编辑，只有脚本返回通过时才允许注册。"
+  license:
+    - name: "AGPL-3.0"
+      url: "https://github.com/WJQ0411/halo-plugin-regverify/blob/main/LICENSE"

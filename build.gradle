@@ -1,0 +1,49 @@
+plugins {
+    id 'java'
+    id "run.halo.plugin.devtools" version "0.9.0"
+}
+
+group 'run.halo.regverify'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation platform('run.halo.tools.platform:plugin:2.27.2')
+    compileOnly 'run.halo.app:api'
+
+    // JavaScript engine used to evaluate the administrator-provided verification script.
+    implementation 'org.mozilla:rhino:1.9.2'
+
+    // Provided by Halo at runtime, used to throttle anonymous verification attempts.
+    compileOnly 'io.github.resilience4j:resilience4j-ratelimiter'
+
+    testImplementation 'run.halo.app:api'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = "UTF-8"
+    options.release = 21
+}
+
+tasks.named('generatePluginComponentsIdx') {
+    notCompatibleWithConfigurationCache('This task invokes "Task.project" at execution time, which is not supported with configuration cache.')
+}
+
+halo {
+    version = '2.27.2'
+}
+

@@ -1,0 +1,89 @@
+apiVersion: v1alpha1
+kind: Setting
+metadata:
+  name: regverify-settings
+spec:
+  forms:
+    - group: basic
+      label: 注册验证设置
+      formSchema:
+        - $formkit: switch
+          name: enabled
+          label: 启用注册验证
+          value: false
+          help: 开启后注册页会出现验证入口，未通过脚本校验的注册请求会被拒绝。脚本为空时视为未配置，不会拦截注册。
+        - $formkit: text
+          name: buttonText
+          label: 验证入口按钮文字
+          value: 开始验证
+        - $formkit: text
+          name: title
+          label: 弹窗标题
+          value: 注册验证
+        - $formkit: textarea
+          name: description
+          label: 弹窗说明
+          value: 请按页面提示完成验证，验证通过后才能继续注册。
+          rows: 3
+        - $formkit: text
+          name: inputLabel
+          label: 输入框标题
+          value: 验证内容
+        - $formkit: text
+          name: inputPlaceholder
+          label: 输入框占位文字
+          value: 请输入验证内容
+        - $formkit: text
+          name: submitText
+          label: 验证提交按钮文字
+          value: 验证
+        - $formkit: text
+          name: cancelText
+          label: 取消按钮文字
+          value: 取消
+        - $formkit: text
+          name: successText
+          label: 验证通过提示
+          value: 验证通过，可以继续注册
+        - $formkit: text
+          name: failText
+          label: 验证失败提示
+          value: 验证未通过，请重试
+        - $formkit: text
+          name: unverifiedText
+          label: 未验证状态提示
+          value: 尚未验证
+        - $formkit: text
+          name: verifyingText
+          label: 验证中状态提示
+          value: 验证中…
+        - $formkit: text
+          name: emptyText
+          label: 输入为空提示
+          value: 请输入验证内容
+        - $formkit: text
+          name: rateLimitedText
+          label: 请求过于频繁提示
+          value: 操作过于频繁，请稍后再试
+        - $formkit: number
+          name: timeoutMs
+          label: 脚本超时时间（毫秒）
+          value: 2000
+          min: 100
+          max: 10000
+          help: 脚本执行超过该时间会被强制终止，避免死循环阻塞注册流程。
+        - $formkit: code
+          name: script
+          label: 验证脚本
+          language: javascript
+          height: 420px
+          value: ""
+          help: |
+            使用 JavaScript 编写，不能访问网络和 Java 类。可用变量：
+            input（用户输入的内容）、username、email、displayName、ip。
+
+            返回值规则：
+            - 返回 true 表示验证通过，允许注册；
+            - 返回 false、null、undefined 或空字符串表示验证失败，显示“验证失败提示”；
+            - 返回其他非空字符串表示验证失败，并把这个字符串作为失败原因显示给用户；
+            - 脚本抛出异常或超时都按验证失败处理。

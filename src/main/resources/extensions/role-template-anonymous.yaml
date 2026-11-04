@@ -1,0 +1,12 @@
+apiVersion: v1alpha1
+kind: Role
+metadata:
+  name: regverify-anonymous-verify
+  labels:
+    halo.run/role-template: "true"
+    halo.run/hidden: "true"
+    rbac.authorization.halo.run/aggregate-to-anonymous: "true"
+rules:
+  - apiGroups: ["api.regverify.halo.run"]
+    resources: ["verify"]
+    verbs: ["create"]
